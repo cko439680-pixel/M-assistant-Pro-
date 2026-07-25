@@ -1,0 +1,6 @@
+{
+  "name": "M Assistant Pro",
+  "description": "Game Assistant replica with launch splash animation, game dashboard, floating control hub overlay, performance tuning and settings.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

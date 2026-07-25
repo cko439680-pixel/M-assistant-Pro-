@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">M Assistant Pro</string>
+    <string name="accessibility_service_description">M Assistant Pro Mistouch Protection prevents accidental Back and Home gesture navigation cuts while gaming.</string>
+</resources>
