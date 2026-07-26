@@ -31,7 +31,7 @@ object AppIconThemeManager {
         ),
         AppIconVariant(
             key = "NEON_GREEN",
-            title = "Neon Green Accent",
+            title = "Neon Green",
             subtitle = "Electric Gaming Hexagon Logo",
             aliasName = "MainActivityNeonGreen",
             accentHex = "#22C55E",
@@ -121,8 +121,10 @@ object AppIconThemeManager {
 
         Toast.makeText(
             context,
-            "App icon updated successfully",
-            Toast.LENGTH_SHORT
+            "Icon applied! Please return to your home screen or restart the phone to see the updated icon.",
+            Toast.LENGTH_LONG
         ).show()
     }
 }
+
+

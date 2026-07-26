@@ -58,6 +58,7 @@ class MainActivity : ComponentActivity() {
                     val masterAssistantEnabled by repository.gameAssistantMasterEnabled.collectAsState()
 
                     val context = androidx.compose.ui.platform.LocalContext.current
+
                     androidx.compose.runtime.LaunchedEffect(masterAssistantEnabled) {
                         try {
                             val serviceIntent = android.content.Intent(context, com.example.service.GameAssistantService::class.java)

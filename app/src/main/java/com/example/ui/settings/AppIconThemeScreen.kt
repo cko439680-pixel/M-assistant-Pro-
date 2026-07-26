@@ -1,6 +1,5 @@
 package com.example.ui.settings
 
-import android.widget.Toast
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -11,7 +10,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,9 +18,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -59,7 +54,6 @@ import androidx.compose.ui.unit.sp
 import com.example.data.GameRepository
 import com.example.ui.components.LiquidGlassCard
 import com.example.util.AppIconThemeManager
-import com.example.util.AppIconVariant
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,7 +63,7 @@ fun AppIconThemeScreen(
 ) {
     val context = LocalContext.current
     var selectedKey by remember { mutableStateOf(AppIconThemeManager.getCurrentVariantKey(context)) }
-    val isLiquidGlass by repository.isLiquidGlassMode.collectAsState()
+
     val blurIntensity by repository.blurIntensity.collectAsState()
     val liquidGlassOpacity by repository.liquidGlassOpacity.collectAsState()
     val liquidGlassSpecular by repository.liquidGlassSpecular.collectAsState()
@@ -112,7 +106,7 @@ fun AppIconThemeScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
-            // Hero Liquid Glass Header Card
+            // Hero Header Card
             LiquidGlassCard(
                 blurIntensity = blurIntensity,
                 liquidGlassOpacity = liquidGlassOpacity,
@@ -155,7 +149,7 @@ fun AppIconThemeScreen(
 
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "CUSTOMIZE APPERANCE",
+                            text = "CUSTOMIZE APPEARANCE",
                             color = currentAccentColor,
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
@@ -170,7 +164,7 @@ fun AppIconThemeScreen(
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
-                            text = "Select a hexagon logo style below to instantly update your home screen icon and system accent palette.",
+                            text = "Select your preferred app icon variant below. The selected icon and matching accent theme will be saved and applied immediately.",
                             color = Color.LightGray,
                             fontSize = 12.sp,
                             lineHeight = 16.sp
@@ -188,7 +182,7 @@ fun AppIconThemeScreen(
                 modifier = Modifier.padding(bottom = 12.dp)
             )
 
-            // Icon Grid
+            // Icon Variant List
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 AppIconThemeManager.VARIANTS.forEach { variant ->
                     val isSelected = variant.key == selectedKey
@@ -226,7 +220,7 @@ fun AppIconThemeScreen(
                                 .padding(14.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            // Icon Preview
+                            // Icon Preview Box
                             Box(
                                 modifier = Modifier
                                     .size(54.dp)
@@ -295,3 +289,5 @@ fun AppIconThemeScreen(
         }
     }
 }
+
+
