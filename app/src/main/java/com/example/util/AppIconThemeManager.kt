@@ -21,46 +21,46 @@ object AppIconThemeManager {
 
     val VARIANTS = listOf(
         AppIconVariant(
-            key = "yellow",
+            key = "DEFAULT",
             title = "Default Yellow",
             subtitle = "Classic Amber Hexagon Logo",
-            aliasName = "com.android.game.MainActivity",
+            aliasName = "MainActivityDefault",
             accentHex = "#EAB308",
             primaryColorHex = "#FFC800",
             previewDrawableRes = R.drawable.ic_launcher_foreground
         ),
         AppIconVariant(
-            key = "green",
+            key = "NEON_GREEN",
             title = "Neon Green Accent",
             subtitle = "Electric Gaming Hexagon Logo",
-            aliasName = "com.android.game.MainActivityGreen",
+            aliasName = "MainActivityNeonGreen",
             accentHex = "#22C55E",
             primaryColorHex = "#22C55E",
             previewDrawableRes = R.drawable.ic_launcher_foreground_green
         ),
         AppIconVariant(
-            key = "cyan",
+            key = "CYBERPUNK_BLUE",
             title = "Cyberpunk Blue",
             subtitle = "Neon Sci-Fi Cyan Hexagon Logo",
-            aliasName = "com.android.game.MainActivityCyan",
+            aliasName = "MainActivityCyberpunkBlue",
             accentHex = "#06B6D4",
             primaryColorHex = "#06B6D4",
             previewDrawableRes = R.drawable.ic_launcher_foreground_cyan
         ),
         AppIconVariant(
-            key = "black",
+            key = "DARK_STEALTH",
             title = "Dark Stealth Black",
             subtitle = "Midnight Stealth Hexagon Logo",
-            aliasName = "com.android.game.MainActivityBlack",
+            aliasName = "MainActivityDarkStealth",
             accentHex = "#A855F7",
             primaryColorHex = "#262626",
             previewDrawableRes = R.drawable.ic_launcher_foreground_black
         ),
         AppIconVariant(
-            key = "red",
+            key = "CRIMSON_RED",
             title = "Crimson Red",
             subtitle = "Championship Crimson Hexagon Logo",
-            aliasName = "com.android.game.MainActivityRed",
+            aliasName = "MainActivityCrimsonRed",
             accentHex = "#EF4444",
             primaryColorHex = "#EF4444",
             previewDrawableRes = R.drawable.ic_launcher_foreground_red
@@ -69,7 +69,44 @@ object AppIconThemeManager {
 
     fun getCurrentVariantKey(context: Context): String {
         val prefs = context.getSharedPreferences("game_assistant_prefs", Context.MODE_PRIVATE)
-        return prefs.getString("selected_app_icon_key", "yellow") ?: "yellow"
+        val saved = prefs.getString("selected_app_icon_key", "DEFAULT") ?: "DEFAULT"
+        return when (saved.uppercase()) {
+            "YELLOW", "DEFAULT" -> "DEFAULT"
+            "GREEN", "NEON_GREEN" -> "NEON_GREEN"
+            "CYAN", "CYBERPUNK_BLUE" -> "CYBERPUNK_BLUE"
+            "BLACK", "DARK_STEALTH" -> "DARK_STEALTH"
+            "RED", "CRIMSON_RED" -> "CRIMSON_RED"
+            else -> "DEFAULT"
+        }
+    }
+
+    fun changeAppIcon(context: Context, targetAlias: String) {
+        val pm = context.packageManager
+        val packageName = context.packageName
+        val aliases = listOf(
+            "$packageName.MainActivityDefault",
+            "$packageName.MainActivityNeonGreen",
+            "$packageName.MainActivityCyberpunkBlue",
+            "$packageName.MainActivityDarkStealth",
+            "$packageName.MainActivityCrimsonRed"
+        )
+
+        for (alias in aliases) {
+            val state = if (alias.endsWith(targetAlias)) {
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+            } else {
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+            }
+            try {
+                pm.setComponentEnabledSetting(
+                    ComponentName(context, alias),
+                    state,
+                    PackageManager.DONT_KILL_APP
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     fun applyAppIconAndTheme(context: Context, variant: AppIconVariant, repository: GameRepository) {
@@ -79,33 +116,13 @@ object AppIconThemeManager {
         // Update Theme Accent Color in Repository
         repository.updateAccentColor(context, variant.accentHex)
 
-        // Enable component setting for active alias and disable others
-        val pm = context.packageManager
-        val packageName = context.packageName
-
-        VARIANTS.forEach { item ->
-            val isSelected = item.key == variant.key
-            val state = if (isSelected) {
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED
-            } else {
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED
-            }
-            try {
-                val compName = ComponentName(packageName, item.aliasName)
-                pm.setComponentEnabledSetting(
-                    compName,
-                    state,
-                    PackageManager.DONT_KILL_APP
-                )
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+        // Switch activity alias for icon
+        changeAppIcon(context, variant.aliasName)
 
         Toast.makeText(
             context,
-            "App icon changed successfully! (Home screen will update shortly)",
-            Toast.LENGTH_LONG
+            "App icon updated successfully",
+            Toast.LENGTH_SHORT
         ).show()
     }
 }

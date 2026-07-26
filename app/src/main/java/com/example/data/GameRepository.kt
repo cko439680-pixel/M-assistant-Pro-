@@ -377,43 +377,10 @@ class GameRepository {
 
     fun applyAppIconForContext(context: android.content.Context) {
         try {
-            val mode = currentPerformanceMode.value
-            val hex = if (mode == PerformanceMode.PRO_GAMER) "#FFB700" else accentColorHex.value
-            val pm = context.packageManager
-            val packageName = context.packageName
-
-            val targetAlias = when (hex.uppercase()) {
-                "#EF4444", "#F87171", "#DC2626" -> "$packageName.MainActivityRed"
-                "#22C55E", "#16A34A", "#4ADE80" -> "$packageName.MainActivityGreen"
-                "#06B6D4", "#38BDF8", "#0284C7" -> "$packageName.MainActivityCyan"
-                "#A855F7", "#C084FC", "#9333EA" -> "$packageName.MainActivityPurple"
-                else -> null
-            }
-
-            // Ensure main activity is always enabled
-            val mainComp = android.content.ComponentName(packageName, "$packageName.MainActivity")
-            if (pm.getComponentEnabledSetting(mainComp) != android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
-                pm.setComponentEnabledSetting(mainComp, android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED, android.content.pm.PackageManager.DONT_KILL_APP)
-            }
-
-            val aliases = listOf(
-                "$packageName.MainActivityRed",
-                "$packageName.MainActivityGreen",
-                "$packageName.MainActivityCyan",
-                "$packageName.MainActivityPurple"
-            )
-
-            aliases.forEach { alias ->
-                val comp = android.content.ComponentName(packageName, alias)
-                val state = if (alias == targetAlias) {
-                    android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED
-                } else {
-                    android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED
-                }
-                if (pm.getComponentEnabledSetting(comp) != state) {
-                    pm.setComponentEnabledSetting(comp, state, android.content.pm.PackageManager.DONT_KILL_APP)
-                }
-            }
+            val key = com.example.util.AppIconThemeManager.getCurrentVariantKey(context)
+            val variant = com.example.util.AppIconThemeManager.VARIANTS.find { it.key == key }
+                ?: com.example.util.AppIconThemeManager.VARIANTS.first()
+            com.example.util.AppIconThemeManager.changeAppIcon(context, variant.aliasName)
         } catch (e: Exception) {
             e.printStackTrace()
         }
