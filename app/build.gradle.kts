@@ -17,8 +17,8 @@ android {
     applicationId = "com.android.game"
     minSdk = 24
     targetSdk = 36
-    versionCode = 1
-    versionName = "1.0"
+    versionCode = 103508
+    versionName = "10.35.8"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }

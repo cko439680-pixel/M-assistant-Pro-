@@ -565,7 +565,7 @@ fun SettingsScreen(
                         Text("Developer & System Info", color = activeAccentColor, fontSize = 12.sp, fontWeight = FontWeight.Bold)
                         Spacer(modifier = Modifier.height(6.dp))
                         Text("Created by Chetan Koli (@starking_1m)", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                        Text("Game Assistant Engine v10.35.3", color = Color.Gray, fontSize = 13.sp)
+                        Text("Game Assistant Engine v10.35.8", color = Color.Gray, fontSize = 13.sp)
                         Spacer(modifier = Modifier.height(10.dp))
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             Box(
@@ -588,8 +588,8 @@ fun SettingsScreen(
                     }
                 }
 
-                AboutRowItem(title = "Version", value = "10.35.3", onClick = {
-                    Toast.makeText(context, "M Assistant Pro v10.35.3 (Build 103503)", Toast.LENGTH_SHORT).show()
+                AboutRowItem(title = "Version", value = "10.35.8", onClick = {
+                    Toast.makeText(context, "M Assistant Pro v10.35.8 (Build 103508)", Toast.LENGTH_SHORT).show()
                 })
                 AboutRowItem(title = "Developer", value = "Chetan Koli (@starking_1m)", onClick = {
                     showDevProfileDialog = true
@@ -830,7 +830,7 @@ fun SettingsScreen(
                         "A: Ensure 'Display over other apps' (SYSTEM_ALERT_WINDOW) permission is granted in device settings.\n\n" +
                         "Q: How to adjust liquid glass / blur?\n" +
                         "A: Go to More Settings > Liquid Glass UI & Background Engine to customize blur, specular highlights, and opacity.\n\n" +
-                        "Support Contact: support@starking.dev",
+                        "Support Contact: Starkingdev9@gmail.com",
                         color = Color.LightGray,
                         fontSize = 13.sp,
                         lineHeight = 18.sp
@@ -840,11 +840,11 @@ fun SettingsScreen(
             dismissButton = {
                 TextButton(onClick = {
                     try {
-                        val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:support@starking.dev"))
+                        val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:Starkingdev9@gmail.com"))
                         intent.putExtra(Intent.EXTRA_SUBJECT, "M Assistant Pro Support Request")
                         context.startActivity(intent)
                     } catch (e: Exception) {
-                        Toast.makeText(context, "Support Email: support@starking.dev", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Support Email: Starkingdev9@gmail.com", Toast.LENGTH_LONG).show()
                     }
                 }) {
                     Text("Contact Email", color = Color(0xFF38BDF8))
